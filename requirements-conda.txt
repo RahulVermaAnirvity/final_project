@@ -1,0 +1,8 @@
+# This file installs the heavy scientific stack with conda.
+# Conda is preferred here because it handles binary packages (like numpy, scipy)
+# more efficiently and avoids pip compilation errors.
+numpy==1.26.4
+scipy==1.14.0
+pandas==2.2.2
+matplotlib==3.9.1
+scikit-learn==1.5.1
