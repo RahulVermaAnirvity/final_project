@@ -24,15 +24,11 @@ jobs:
             ${{ runner.os }}-pip-
 
       - name: install dependencies
-        run: pip install -r requirements.txt
-
-      - name: install dvc
-        run: pip install dvc[all]
-
-      - name: setup git lfs
         run: |
-          git lfs install
-          git lfs pull
+          pip install -r requirements.txt
 
-      - name: repro pipeline with dvc
-        run: dvc repro
+      - name: run pipeline
+        # env:
+        #   CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
+        run: |
+          dvc repro
