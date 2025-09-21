@@ -5,6 +5,9 @@ on: push
 jobs:
   project-testing:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}   # ensures conda env is activated in all steps
 
     steps:
       - name: checkout code
@@ -31,6 +34,9 @@ jobs:
 
       - name: install pip dependencies
         run: pip install -r requirements-pip.txt
+
+      - name: install dvc
+        run: pip install dvc[all]
 
       - name: run pipeline
         run: dvc repro
