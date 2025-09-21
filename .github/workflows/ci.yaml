@@ -5,62 +5,30 @@ on: push
 jobs:
   project-testing:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}   # ensures conda environment is activated
 
     steps:
-      - name: Checkout code
+      - name: checkout code
         uses: actions/checkout@v3
 
-      - name: Setup conda
-        uses: conda-incubator/setup-miniconda@v2
+      - name: setup python
+        uses: actions/setup-python@v2
         with:
-          python-version: 3.10
-          auto-update-conda: true
-          channels: conda-forge,defaults
+          python-version: '3.10'
 
-      # -------------------
-      # Cache conda packages
-      # -------------------
-      - name: Cache conda packages
-        uses: actions/cache@v3
-        with:
-          path: ~/.conda/pkgs
-          key: ${{ runner.os }}-conda-${{ hashFiles('environment.yml') }}
-          restore-keys: |
-            ${{ runner.os }}-conda-
-
-      # -------------------
-      # Cache pip dependencies
-      # -------------------
       - name: Cache pip dependencies
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements-pip.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      # -------------------
-      # Create conda environment
-      # -------------------
-      - name: Create conda environment
+      - name: install dependencies
         run: |
-          # Remove env if it exists (prevents exit code 1)
-          conda env remove -n atlas || echo "Environment atlas does not exist"
-          # Create env from environment.yml
-          conda env create -f environment.yml
+          pip install -r requirements.txt
 
-      # -------------------
-      # Install pip dependencies (if needed)
-      # -------------------
-      - name: Install pip dependencies
+      - name: run pipeline
+        # env:
+        #   CAPSTONE_TEST: ${{ secrets.CAPSTONE_TEST }}
         run: |
-          conda run -n atlas pip install -r requirements-pip.txt
-
-      # -------------------
-      # Run DVC pipeline
-      # -------------------
-      - name: Run DVC pipeline
-        run: conda run -n atlas dvc repro
+          dvc repro
