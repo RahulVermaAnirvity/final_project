@@ -13,7 +13,7 @@ from src.logger import logging
 
 # Below code block is for production use
 # -------------------------------------------------------------------------------------
-# Set up DagsHub credentials for MLflow tracking
+# # Set up DagsHub credentials for MLflow tracking
 dagshub_token = os.getenv("FINALPROJECTTOKEN")
 if not dagshub_token:
     raise EnvironmentError("FINALPROJECTTOKEN environment variable is not set")

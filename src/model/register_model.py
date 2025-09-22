@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 
 # Below code block is for production use
 # -------------------------------------------------------------------------------------
-# # Set up DagsHub credentials for MLflow tracking
+# # # Set up DagsHub credentials for MLflow tracking
 dagshub_token = os.getenv("FINALPROJECTTOKEN")
 if not dagshub_token:
     raise EnvironmentError("FINALPROJECTTOKEN environment variable is not set")
@@ -26,7 +26,7 @@ repo_owner = "RahulVermaAnirvity"
 repo_name = "final_project"
 # Set up MLflow tracking URI
 mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
-# -------------------------------------------------------------------------------------
+# # -------------------------------------------------------------------------------------
 
 
 # # Below code block is for local use
